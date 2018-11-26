@@ -1,15 +1,17 @@
 package com.dz.dao;
 
-import com.dz.model.Student;
+        import com.dz.model.Student;
 
-import java.util.List;
+        import java.util.List;
 
 public interface StudentDao {
-    boolean addStudent(Student student);
+    void addStudent(Student student);
 
     List<Student> viewStudent();
 
-    boolean editRecord(Student student);
+    void editRecord(Student student);
 
-    boolean deleteRecord(int id);
+    void deleteRecord(int id);
+
+    Student getStudentById(int id);
 }

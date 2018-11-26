@@ -17,7 +17,7 @@
                 var id = $(this).closest(".tr").find('.id').text();
                 var studentName = $(this).closest(".tr").find(".studentName").text();
                 var age = $(this).closest(".tr").find(".age").text();
-                $.post("EditStudent", {
+                $.post("editstudent", {
                     id: id,
                     studentName: studentName,
                     age: age
@@ -31,10 +31,7 @@
 <body>
 
 <center>
-  <%--  <form action="<c:url value= "/ViewStudent"/>"  method="post">--%>
-        <%-- <input type="submit" value="show" name="show">--%>
-        <input type="submit" value="add" name="add">
-    </form>
+
 
     <table class="table ">
         <tr>
@@ -47,15 +44,16 @@
         <c:forEach items="${studentList}" var="student">
             <tr class="tr">
                 <td class="id" id="id" ><c:out value="${student.roll_no}"/></td>
-                <td contenteditable="true" class="studentName" ><c:out value="${student.studentName}"/></td>
-                <td contenteditable="true" class="age"><c:out value="${student.age}"/></td>
-              <%--  <td><a href="<c:url value="/DeleteStudent?id="/><c:out value="${student.roll_no}"/>"> Delete</a></td>--%>
-                <td> <input type="button" id="edit"  class="edit" value="edit"> </td>
+                <td  class="studentName" ><c:out value="${student.name}"/></td>
+                <td  class="age"><c:out value="${student.age}"/></td>
+                <td><a href="<c:url value="/deletestudent/${student.roll_no}"/>"> Delete</a></td>
+                <td><a href="<c:url value="/editstudent/${student.roll_no}"/> ">Edit</a> </td>
             </tr>
         </c:forEach>
 
     </table>
     <c:out value="${ message}"></c:out>
+    <a href="<c:url value="/index"/>">INDEX</a>
 </center>
 </body>
 </html>
