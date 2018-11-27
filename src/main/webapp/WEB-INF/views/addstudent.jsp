@@ -1,41 +1,24 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: dz-gg-05
-  Date: 22/11/18
-  Time: 10:25 AM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
-<%--method="post"--%>
-<center >
-    <form:form   action="/addstudent" modelAttribute="student" method="post"   >
-      <table>  <tr>
-            <td> Name</td>
-            <td>
-                <form:input path="name"/>
-            </td>
-        </tr>
-        <tr>
-            <td> Age</td>
-            <td>
-                <form:input path="age"/>
-            </td>
-        </tr>
-         <tr>
-             <td>
-                 <input type="submit" value="Submit">
-             </td>
+<%@ include file="../templates/taglib.jsp" %>
 
-         </tr>
 
-      </table>
-    </form:form>
-</center>
-</body>
-</html>
+
+<div class="container">
+    <center>
+        <form:form   action="/addstudent" modelAttribute="student" method="post"   >
+
+            <div class="form-group">
+                <label for="name">Name :
+                    <form:input path="name"/>
+                </label>
+            </div>
+            <div class="form-group">
+                <label for="age"> Age
+
+                    <form:input path="age"/>
+                </label>
+            </div>
+            <button type="submit" class="btn btn-default">Submit</button>
+
+        </form:form>
+    </center>
+</div>

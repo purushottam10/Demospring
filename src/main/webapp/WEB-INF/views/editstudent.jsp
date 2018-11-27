@@ -1,45 +1,27 @@
-<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%--
-  Created by IntelliJ IDEA.
-  User: dz-gg-05
-  Date: 22/11/18
-  Time: 1:00 PM
-  To change this template use File | Settings | File Templates.
---%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<html>
-<head>
-    <title>Title</title>
-</head>
-<body>
+<%@ include file="../templates/taglib.jsp" %>
+
+
+<div class="container">
 <center>
-    <table><form:form action="/editstudent" modelAttribute="student" method="post">
-        <tr>
-            <td> Roll No</td>
-            <td>
-                <form:input path="roll_no"/>
-            </td>
-        </tr>
-        <tr>
-            <td> Name</td>
-            <td>
-                <form:input path="name"/>
-            </td>
-        </tr>
-        <tr>
-            <td> Age</td>
-            <td>
-                <form:input path="age"/>
-            </td>
-        </tr>
+<form:form action="/editstudent" modelAttribute="student" method="post">
+    <div class="form-group">
+        <label for="roll_no">Roll No:
 
-        <tr><center>
-            <td>
-                <input type="submit" value="Submit"></td></center>
-        </tr>
+            <form:input path="roll_no"/></label>
+    </div>
+    <div class="form-group">
+        <label for="name">Name :
+            <form:input path="name"/>
+        </label>
+    </div>
+    <div class="form-group">
+        <label for="age"> Age
 
-    </form:form></table>
+            <form:input path="age"/>
+        </label>
+    </div>
+        <button type="submit" class="btn btn-default">Submit</button>
 
+</form:form>
 </center>
-</body>
-</html>
+</div>
