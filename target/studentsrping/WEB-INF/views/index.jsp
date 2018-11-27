@@ -1,6 +1,5 @@
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<html>
-<body>
+<%@ include file="../templates/taglib.jsp" %>
+
 <center>
     <span><c:out value="${message}"/></span>
     <table>
@@ -21,5 +20,3 @@
         </tr>
     </table>
 </center>
-</body>
-</html>
