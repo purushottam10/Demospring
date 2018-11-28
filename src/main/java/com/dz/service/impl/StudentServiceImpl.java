@@ -9,10 +9,10 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class ImplStudentService implements StudentService {
+public class StudentServiceImpl implements StudentService {
 
 
-    private ImplStudentService(){
+    private StudentServiceImpl(){
 
     }
     @Autowired
@@ -23,7 +23,7 @@ public class ImplStudentService implements StudentService {
 
          studentDao.addStudent(student);
     }
-    //end method
+
 
     /**
      *
@@ -31,7 +31,7 @@ public class ImplStudentService implements StudentService {
     @Override
     public List<Student> viewStudent() {
         return studentDao.viewStudent();
-    }//method end
+    }
 
     /**
      * @param student this receive the student model
@@ -41,7 +41,7 @@ public class ImplStudentService implements StudentService {
     public void editRecord(Student student) {
 
         studentDao.editRecord(student);
-    }//method end
+    }
 
    public  Student getStudentById(int id){
         return studentDao.getStudentById(id);
@@ -54,5 +54,5 @@ public class ImplStudentService implements StudentService {
     public void deleteRecord(int id) {
 
          studentDao.deleteRecord(id);
-    }//method end
+    }
 }

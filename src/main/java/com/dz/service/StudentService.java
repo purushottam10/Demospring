@@ -7,7 +7,7 @@ import java.util.List;
 public interface StudentService {
     void addStudent(Student student);
 
-    List viewStudent();
+    List<Student> viewStudent();
 
     void editRecord(Student student);
 

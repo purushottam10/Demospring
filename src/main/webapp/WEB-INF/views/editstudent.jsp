@@ -4,11 +4,7 @@
 <div class="container">
 <center>
 <form:form action="/editstudent" modelAttribute="student" method="post">
-    <div class="form-group">
-        <label for="roll_no">Roll No:
 
-            <form:input path="roll_no"/></label>
-    </div>
     <div class="form-group">
         <label for="name">Name :
             <form:input path="name"/>

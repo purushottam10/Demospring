@@ -1,12 +1,8 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: dz-gg-05
-  Date: 27/11/18
-  Time: 10:39 AM
-  To change this template use File | Settings | File Templates.
---%>
+
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
+
+<%@ include file="../templates/taglib.jsp" %>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,19 +15,90 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title><tiles:getAsString name="title"/></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        * {box-sizing: border-box;}
+
+        body {
+            margin: 0;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        .header {
+            overflow: hidden;
+            background-color: #f1f1f1;
+            padding: 20px 10px;
+        }
+
+        .header a {
+            float: left;
+            color: black;
+            text-align: center;
+            padding: 12px;
+            text-decoration: none;
+            font-size: 18px;
+            line-height: 25px;
+            border-radius: 4px;
+        }
+
+        .header a.logo {
+            font-size: 25px;
+            font-weight: bold;
+        }
+
+        .header a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+
+        .header a.active {
+            background-color: dodgerblue;
+            color: white;
+        }
+
+        .header-right {
+            float: right;
+        }
+
+        @media screen and (max-width: 500px) {
+            .header a {
+                float: none;
+                display: block;
+                text-align: left;
+            }
+            .header-right {
+                float: none;
+            }
+        }
+    </style>
 </head>
 <body>
 
-<%@ taglib uri="http://tiles.apache.org/tags-tiles-extras" prefix="tilesx" %>
-<%@ taglib prefix="titles" uri="http://tiles.apache.org/tags-tiles" %>
-<tilesx:useAttribute name="current"/>
+<div class="header">
+    <a href="#default" class="logo">CompanyLogo</a>
+    <div class="header-right">
+        <a class="active" href="<c:url value="/index"/>">Home</a>
+        <a href="<c:url value="/addstudent"/>">Add Student</a>
+        <a href="<c:url value="/viewstudent"/> ">View Student</a>
+    </div>
+</div>
 <div>
+
+<center>Welcome to student Record </center>
+
+<tilesx:useAttribute name="current"/>
+<div class="w3-container">
+    <div style=" float:left;padding:10px;width:15%;height: 100%">
+    <tiles:insertAttribute name="leftmenu" /></div>
+    <div style=" float:left;padding:10px;width:80%;" >
     <tiles:insertAttribute name="body"/>
+    </div>
     <br>
     <br>
     <center>
         <titles:insertAttribute name="footer"/>
     </center>
+</div>
 </div>
 </body>
 </html>

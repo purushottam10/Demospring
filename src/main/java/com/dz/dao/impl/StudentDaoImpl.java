@@ -10,6 +10,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
@@ -20,18 +21,19 @@ import java.util.List;
 
 @Transactional
 @Repository
-class ImplStudentDao implements StudentDao {
+class StudentDaoImpl implements StudentDao {
 
     /**
      * to make class singaltan
      */
-    private ImplStudentDao() {
+    @Autowired
+    private StudentDaoImpl(JdbcTemplate template) {
 
-    }//constructor end
+        this.template = template;
+    }
 
     private final Logger log = LogManager.getLogger(StudentDao.class.getName());
-    @Autowired
-    private JdbcTemplate template;
+    private final JdbcTemplate template;
 
 
     /**
@@ -42,9 +44,9 @@ class ImplStudentDao implements StudentDao {
     @Override
     public void addStudent(Student student) {
 
-        String sql = "insert into student (ID,name,age) values('" + student.getRoll_no() + "','" + student.getName() + "','" + student.getAge() + "')";
+        String sql = "insert into student (ID,name,age) values('" + student.getRollNo() + "','" + student.getName() + "','" + student.getAge() + "')";
         template.update(sql);
-    }//method end
+    }
 
     /**
      * @return studentList this return studentList
@@ -60,7 +62,7 @@ class ImplStudentDao implements StudentDao {
                     List<Student> studentList = new ArrayList<>();
                     while (resultSet.next()) {
                         Student student = new Student();
-                        student.setRoll_no(resultSet.getInt(1));
+                        student.setRollNo(resultSet.getInt(1));
                         student.setName(resultSet.getString(2));
                         student.setAge(resultSet.getInt(3));
                         studentList.add(student);
@@ -69,7 +71,7 @@ class ImplStudentDao implements StudentDao {
                 }
         );
 
-    }//method end
+    }
 
     /**
      * @param id this receive  the id to service
@@ -77,20 +79,20 @@ class ImplStudentDao implements StudentDao {
      */
     public Student getStudentById(int id) {
         log.info("here is getStudentById");
-        return template.queryForObject("SELECT * from student  WHERE id=? ", new Object[]{id}, new BeanPropertyRowMapper<>(Student.class));
+        return template.queryForObject("SELECT id as rollNo, name, age from student  WHERE id=? ", new Object[]{id}, new BeanPropertyRowMapper<>(Student.class));
 
-    }//method end
+    }
 
     /**
      * @param student this receive the param to the service
      */
     @Override
     public void editRecord(Student student) {
-        log.info("id from controller" + student.getRoll_no());
-        String sql = "update student set name='" + student.getName() + "',age=" + student.getAge() + " where ID=" + student.getRoll_no() + "";
+        log.info("id from controller" + student.getRollNo());
+        String sql= "update student set name='" + student.getName() + "',age=" + student.getAge() + " where ID=" + student.getRollNo() + "";
         log.info("message" + sql);
         template.update(sql);
-    }//method end
+    }
 
     /**
      * @param id this receive from service
@@ -100,6 +102,5 @@ class ImplStudentDao implements StudentDao {
 
         String sql = "DELETE FROM student WHERE ID=" + id + "";
         template.update(sql);
-    }//method end
+    }
 }
-//class end

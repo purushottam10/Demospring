@@ -5,29 +5,26 @@ import java.io.Serializable;
 /**
  * Model class to access  the model object
  */
-public class Student  implements Serializable {
-    private int roll_no ;
-    private String name ;
-    private int age ;
+public class Student implements Serializable {
+    private int rollNo;
+    private String name;
+    private int age;
 
     /**
-     *
      * @return rool_no
      */
-    public int getRoll_no() {
-        return roll_no;
+    public int getRollNo() {
+        return rollNo;
     }
 
     /**
-     *
-     * @param roll_no
+     * @param rollNo
      */
-    public void setRoll_no(int roll_no) {
-        this.roll_no = roll_no;
+    public void setRollNo(int rollNo) {
+        this.rollNo = rollNo;
     }
 
     /**
-     *
      * @return name
      */
     public String getName() {
@@ -35,7 +32,6 @@ public class Student  implements Serializable {
     }
 
     /**
-     *
      * @param name
      */
     public void setName(String name) {
@@ -43,7 +39,6 @@ public class Student  implements Serializable {
     }
 
     /**
-     *
      * @return
      */
     public int getAge() {
@@ -51,7 +46,6 @@ public class Student  implements Serializable {
     }
 
     /**
-     *
      * @param age
      */
     public void setAge(int age) {
