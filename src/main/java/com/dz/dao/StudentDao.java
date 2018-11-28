@@ -1,8 +1,8 @@
 package com.dz.dao;
 
-        import com.dz.model.Student;
+import com.dz.model.Student;
 
-        import java.util.List;
+import java.util.List;
 
 public interface StudentDao {
     void addStudent(Student student);
