@@ -14,7 +14,8 @@
                 <td class="id" id="id" ><c:out value="${student.rollNo}"/></td>
                 <td  class="studentName" ><c:out value="${student.name}"/></td>
                 <td  class="age"><c:out value="${student.age}"/></td>
-                <td><a href="<c:url value="/deletestudent/${student.rollNo}"/>" > Delete</a></td>
+                <td><a href="<c:url value="/deletestudent/${student.rollNo}"/>" class="btn btn-info btn-sm"> <span
+                        class="glyphicon glyphicon-trash"/> Delete</a></td>
                 <td><a href="<c:url value="/editstudent/${student.rollNo}"/> " class="btn btn-info btn-sm"> <span class="glyphicon glyphicon-pencil"></span>edit</a> </td>
             </tr>
         </c:forEach>

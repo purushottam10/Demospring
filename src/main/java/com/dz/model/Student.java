@@ -1,13 +1,23 @@
 package com.dz.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.io.Serializable;
 
 /**
  * Model class to access  the model object
  */
+@Entity
+
 public class Student implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int rollNo;
+    // @Column(name = "name")
     private String name;
+    // @Column(name = "age")
     private int age;
 
     /**

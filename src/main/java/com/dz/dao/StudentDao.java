@@ -11,7 +11,7 @@ public interface StudentDao {
 
     void editRecord(Student student);
 
-    void deleteRecord(int id);
+    void deleteRecord(Student student);
 
     Student getStudentById(int id);
 }

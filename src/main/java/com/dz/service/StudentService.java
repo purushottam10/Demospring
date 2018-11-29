@@ -11,7 +11,7 @@ public interface StudentService {
 
     void editRecord(Student student);
 
-    void deleteRecord(int id);
+    void deleteRecord(Student student);
 
     Student getStudentById(int roll_no);
 }

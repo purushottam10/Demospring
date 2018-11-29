@@ -75,7 +75,8 @@
 <body>
 
 <div class="header">
-    <a href="#default" class="logo">CompanyLogo</a>
+    <a href="#" class="logo"><img src="/resources/logo.png" alt="CompanyLogo"
+                                  style="height: 60px;width:100px;padding-top:0%;"></a>
     <div class="header-right">
         <a class="active" href="<c:url value="/index"/>">Home</a>
         <a href="<c:url value="/addstudent"/>">Add Student</a>

@@ -4,21 +4,23 @@ import com.dz.dao.StudentDao;
 import com.dz.model.Student;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
+import org.hibernate.Criteria;
+import org.hibernate.HibernateException;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
  * implement StudentDao class and provide the operations  of data base
  */
-
+@EnableTransactionManagement(proxyTargetClass = true)
 @Transactional
 @Repository
 class StudentDaoImpl implements StudentDao {
@@ -27,13 +29,8 @@ class StudentDaoImpl implements StudentDao {
      * to make class singaltan
      */
     @Autowired
-    private StudentDaoImpl(JdbcTemplate template) {
-
-        this.template = template;
-    }
-
+    SessionFactory sessionFactory;
     private final Logger log = LogManager.getLogger(StudentDao.class.getName());
-    private final JdbcTemplate template;
 
 
     /**
@@ -43,9 +40,18 @@ class StudentDaoImpl implements StudentDao {
      */
     @Override
     public void addStudent(Student student) {
+        log.info(student.getRollNo() + "  " + student.getName() + " " + student.getAge());
 
-        String sql = "insert into student (ID,name,age) values('" + student.getRollNo() + "','" + student.getName() + "','" + student.getAge() + "')";
-        template.update(sql);
+        try {
+
+            Session session = sessionFactory.getCurrentSession();
+            log.info("Session created but data not saved yet");
+            session.saveOrUpdate(student);
+
+        } catch (HibernateException e) {
+            log.error(e.getMessage(), e);
+            log.info("Session created but counter to exception ");
+        }
     }
 
     /**
@@ -57,30 +63,34 @@ class StudentDaoImpl implements StudentDao {
 
 
         log.info("this in the StudentDao View Method");
-        return template.query("Select * from student", (ResultSet resultSet) -> {
-                    log.info("in the Result set applied the lambda Expression ");
-                    List<Student> studentList = new ArrayList<>();
-                    while (resultSet.next()) {
-                        Student student = new Student();
-                        student.setRollNo(resultSet.getInt(1));
-                        student.setName(resultSet.getString(2));
-                        student.setAge(resultSet.getInt(3));
-                        studentList.add(student);
-                    }
-                    return studentList;
-                }
-        );
+        try {
+            Query query = sessionFactory.getCurrentSession().createQuery(" From Student");
+            List<Student> studentList = query.list();
+            return studentList;
+        } catch (HibernateException e) {
+            log.error(e.getMessage(), e);
+        }
 
+        return null;
     }
 
     /**
-     * @param id this receive  the id to service
+     * @param rollNo this receive  the id to service
      * @return student return a single student
      */
-    public Student getStudentById(int id) {
+    public Student getStudentById(int rollNo) {
         log.info("here is getStudentById");
-        return template.queryForObject("SELECT id as rollNo, name, age from student  WHERE id=? ", new Object[]{id}, new BeanPropertyRowMapper<>(Student.class));
 
+        try {
+            Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Student.class);
+            criteria.add(Restrictions.eq("rollNo", rollNo));
+            Student student = (Student) criteria.uniqueResult();
+            log.info(student.getRollNo() + "  " + student.getName() + " " + student.getAge());
+            return student;
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+        }
+        return null;
     }
 
     /**
@@ -89,18 +99,19 @@ class StudentDaoImpl implements StudentDao {
     @Override
     public void editRecord(Student student) {
         log.info("id from controller" + student.getRollNo());
-        String sql= "update student set name='" + student.getName() + "',age=" + student.getAge() + " where ID=" + student.getRollNo() + "";
-        log.info("message" + sql);
-        template.update(sql);
+        log.info(student.getRollNo() + "  " + student.getName() + " " + student.getAge() + "gfghryh5djjjjjjjjjjjjjjj");
+        Session session = sessionFactory.getCurrentSession();
+        session.saveOrUpdate(student);
+
     }
 
     /**
-     * @param id this receive from service
+     * @param student this receive from service
      */
     @Override
-    public void deleteRecord(int id) {
+    public void deleteRecord(Student student) {
 
-        String sql = "DELETE FROM student WHERE ID=" + id + "";
-        template.update(sql);
+        Session session = sessionFactory.getCurrentSession();
+        session.delete(student);
     }
 }

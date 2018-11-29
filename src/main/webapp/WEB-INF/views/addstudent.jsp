@@ -1,6 +1,7 @@
 <%@ include file="../templates/taglib.jsp" %>
 
-
+<br>
+<br>
 <div class="container">
     <center>
         <form:form action="/addstudent" modelAttribute="student" method="post">

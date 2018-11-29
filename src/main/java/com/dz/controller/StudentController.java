@@ -26,13 +26,15 @@ public class StudentController {
 
     private final Logger log = LogManager.getLogger(StudentController.class.getName());
 
-    private final StudentService studentService;
+    /**
+     * constructor
+     */
+    private StudentController() {
 
-    @Autowired
-    public StudentController(StudentService studentService) {
-        this.studentService = studentService;
+
     }
-
+    @Autowired
+    private StudentService studentService;
     /**
      *
      * @return this will return at the index page when ever you start the server
@@ -56,8 +58,9 @@ public class StudentController {
     public String addProduct(Model model) {
 
         Student student = new Student();
-        log.info("inside add Product");
+        log.info("inside add Student");
         model.addAttribute("student", student);
+        model.addAttribute("message", "data saved");
         return "addstudent";
     }
 
@@ -84,9 +87,10 @@ public class StudentController {
             return new ModelAndView("index", "message", "no data Found in the table ");
     }
 
-    @RequestMapping(value = "editstudent/{roll_no}")
-    public String editStudent(@PathVariable("roll_no") int roll_no, Model model) {
-        Student student = studentService.getStudentById(roll_no);
+    @RequestMapping(value = "editstudent/{rollNo}")
+    public String editStudent(@PathVariable("rollNo") int rollNo, Model model) {
+        Student student = studentService.getStudentById(rollNo);
+        log.info(student.getRollNo() + "  " + student.getName() + " " + student.getAge() + "this when attribute are setting ");
         model.addAttribute("student", student);
         return "editstudent";
     }
@@ -104,10 +108,12 @@ public class StudentController {
     /**
      * to Delete the record from database
      */
-    @RequestMapping(value = "deletestudent/{roll_no}", method = RequestMethod.GET)
-    public ModelAndView delete(@PathVariable("roll_no") Integer roll_no) {
-        log.info("this the id passed by JSP page " + roll_no);
-        studentService.deleteRecord(roll_no);
+    @RequestMapping(value = "deletestudent/{rollNo}", method = RequestMethod.GET)
+    public ModelAndView delete(@PathVariable("rollNo") Integer rollNo) {
+        log.info("this the id passed by JSP page " + rollNo);
+        Student student = studentService.getStudentById(rollNo);
+        log.info(student.getRollNo() + "  " + student.getName() + " " + student.getAge());
+        studentService.deleteRecord(student);
         return new ModelAndView("redirect:/viewstudent");
     }
 
