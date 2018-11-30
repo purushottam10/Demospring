@@ -14,16 +14,19 @@ import java.util.List;
 public class StudentServiceImpl implements StudentService {
     private final Logger log = LogManager.getLogger(StudentDao.class.getName());
 
-    private StudentServiceImpl(){
+    private final StudentDao studentDao;
 
-    }
     @Autowired
-    private StudentDao studentDao;
+    private StudentServiceImpl(StudentDao studentDao) {
+
+        this.studentDao = studentDao;
+    }
 
     @Override
     public void addStudent(Student student) {
 
-         studentDao.addStudent(student);
+        studentDao.addStudent(student);
+
     }
 
 
@@ -48,9 +51,9 @@ public class StudentServiceImpl implements StudentService {
     public Student getStudentById(int rollNo) {
 
         return studentDao.getStudentById(rollNo);
-   }
+    }
+
     /**
-     *
      * @param student this receive the student id
      */
     @Override

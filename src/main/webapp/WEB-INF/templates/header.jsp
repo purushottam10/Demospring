@@ -34,7 +34,7 @@
             float: left;
             color: black;
             text-align: center;
-            padding: 12px;
+            padding: 8px;
             text-decoration: none;
             font-size: 18px;
             line-height: 25px;
@@ -43,6 +43,9 @@
 
         .header a.logo {
             font-size: 25px;
+            padding: 0px;
+            padding-top: 0px;
+            padding-bottom: 0px;
             font-weight: bold;
         }
 
@@ -75,7 +78,7 @@
 <body>
 
 <div class="header">
-    <a href="#" class="logo"><img src="/resources/logo.png" alt="CompanyLogo"
+    <a href="#" class="logo"><img src="<c:url value="/resources/logo.png"/>" alt="CompanyLogo"
                                   style="height: 60px;width:100px;padding-top:0%;"></a>
     <div class="header-right">
         <a class="active" href="<c:url value="/index"/>">Home</a>

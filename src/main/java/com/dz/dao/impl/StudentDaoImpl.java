@@ -4,15 +4,11 @@ import com.dz.dao.StudentDao;
 import com.dz.model.Student;
 import org.apache.log4j.LogManager;
 import org.apache.log4j.Logger;
-import org.hibernate.Criteria;
-import org.hibernate.HibernateException;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.*;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -20,17 +16,20 @@ import java.util.List;
 /**
  * implement StudentDao class and provide the operations  of data base
  */
-@EnableTransactionManagement(proxyTargetClass = true)
 @Transactional
 @Repository
 class StudentDaoImpl implements StudentDao {
 
+    private final Logger log = LogManager.getLogger(StudentDao.class.getName());
     /**
      * to make class singaltan
      */
+    private final SessionFactory sessionFactory;
+
     @Autowired
-    SessionFactory sessionFactory;
-    private final Logger log = LogManager.getLogger(StudentDao.class.getName());
+    public StudentDaoImpl(SessionFactory sessionFactory) {
+        this.sessionFactory = sessionFactory;
+    }
 
 
     /**
@@ -41,16 +40,20 @@ class StudentDaoImpl implements StudentDao {
     @Override
     public void addStudent(Student student) {
         log.info(student.getRollNo() + "  " + student.getName() + " " + student.getAge());
-
+        Session session = this.sessionFactory.openSession();
+        Transaction transaction = session.getTransaction();
         try {
-
-            Session session = sessionFactory.getCurrentSession();
+            transaction.begin();
             log.info("Session created but data not saved yet");
             session.saveOrUpdate(student);
-
+            transaction.commit();
         } catch (HibernateException e) {
             log.error(e.getMessage(), e);
             log.info("Session created but counter to exception ");
+            transaction.rollback();
+        } finally {
+            session.close();
+
         }
     }
 
@@ -80,9 +83,9 @@ class StudentDaoImpl implements StudentDao {
      */
     public Student getStudentById(int rollNo) {
         log.info("here is getStudentById");
+        Criteria criteria = this.sessionFactory.getCurrentSession().createCriteria(Student.class);
 
         try {
-            Criteria criteria = sessionFactory.getCurrentSession().createCriteria(Student.class);
             criteria.add(Restrictions.eq("rollNo", rollNo));
             Student student = (Student) criteria.uniqueResult();
             log.info(student.getRollNo() + "  " + student.getName() + " " + student.getAge());
@@ -100,8 +103,18 @@ class StudentDaoImpl implements StudentDao {
     public void editRecord(Student student) {
         log.info("id from controller" + student.getRollNo());
         log.info(student.getRollNo() + "  " + student.getName() + " " + student.getAge() + "gfghryh5djjjjjjjjjjjjjjj");
-        Session session = sessionFactory.getCurrentSession();
-        session.saveOrUpdate(student);
+        Session session = this.sessionFactory.openSession();
+        Transaction transaction = session.getTransaction();
+        try {
+            transaction.begin();
+            session.saveOrUpdate(student);
+            transaction.commit();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            transaction.rollback();
+        } finally {
+            session.close();
+        }
 
     }
 
@@ -110,8 +123,18 @@ class StudentDaoImpl implements StudentDao {
      */
     @Override
     public void deleteRecord(Student student) {
+        Session session = this.sessionFactory.openSession();
+        Transaction transaction = session.getTransaction();
+        try {
+            transaction.begin();
+            session.delete(student);
+            transaction.commit();
+        } catch (Exception e) {
+            log.error(e.getMessage(), e);
+            transaction.rollback();
+        } finally {
+            session.close();
+        }
 
-        Session session = sessionFactory.getCurrentSession();
-        session.delete(student);
     }
 }

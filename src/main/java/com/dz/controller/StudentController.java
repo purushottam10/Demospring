@@ -26,20 +26,18 @@ public class StudentController {
 
     private final Logger log = LogManager.getLogger(StudentController.class.getName());
 
-    /**
-     * constructor
-     */
-    private StudentController() {
+    private final StudentService studentService;
 
-
-    }
     @Autowired
-    private StudentService studentService;
+    public StudentController(StudentService studentService) {
+
+        this.studentService = studentService;
+    }
+
     /**
-     *
      * @return this will return at the index page when ever you start the server
      */
-    @RequestMapping(value ={"/","index"})
+    @RequestMapping(value = {"/", "index"})
     public String indexController() {
 
 
@@ -55,7 +53,7 @@ public class StudentController {
      * @return addstudent
      */
     @RequestMapping("addstudent")
-    public String addProduct(Model model) {
+    public String addStudent(Model model) {
 
         Student student = new Student();
         log.info("inside add Student");
